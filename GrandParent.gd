@@ -13,7 +13,7 @@ func _ready():
 	pass # Replace with function body.
 
 	# switching between scenes
-	print("Changing scene to \"SceneOne.tscn\"...")
+	print("Changing the current scene to \"SceneOne.tscn\"...")
 	get_tree().change_scene("SceneOne.tscn")
 
 
