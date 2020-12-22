@@ -4,7 +4,7 @@ extends Node
 # Declare member variables here. Examples:
 # var a = 2
 # var b = "text"
-
+"""
 var parentName
 var p1
 var p2
@@ -35,3 +35,4 @@ func _ready():
 	
 	print(find_node("Child2",true,false))
 	print(get_node("./..").get_children()[1].name + " found!")
+"""
