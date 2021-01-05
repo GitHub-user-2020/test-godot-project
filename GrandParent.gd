@@ -13,8 +13,8 @@ func _ready():
 	pass # Replace with function body.
 
 	# switching between scenes
-	print("Changing the current scene to \"SceneOne.tscn\"...")
-	_newScene = get_tree().change_scene("SceneOne.tscn")
+	#print("Changing the current scene to \"SceneOne.tscn\"...")
+	#_newScene = get_tree().change_scene("SceneOne.tscn")
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
