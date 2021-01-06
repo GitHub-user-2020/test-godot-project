@@ -1,8 +1,9 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://Child.gd" type="Script" id=1]
 [ext_resource path="res://GrandParent.gd" type="Script" id=2]
 [ext_resource path="res://freeknight/png/Idle (1).png" type="Texture" id=3]
+[ext_resource path="res://MySprite.gd" type="Script" id=4]
 
 [node name="TheRoot" type="Node"]
 
@@ -20,3 +21,4 @@ script = ExtResource( 1 )
 position = Vector2( 248, 293.37 )
 scale = Vector2( 0.822828, 0.822828 )
 texture = ExtResource( 3 )
+script = ExtResource( 4 )
