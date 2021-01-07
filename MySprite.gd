@@ -16,10 +16,12 @@ func _process(delta):
 	# spin the sprite round and round
 	#rotate(deg2rad(90*delta))
 	rotation = self.rotation + deg2rad(90*delta)
-	translate(Vector2(-100 * delta, 0))
+	translate(Vector2(-100 * delta, -100 * delta))
 
 	if (position.x < 0):
-		position = Vector2(get_viewport().size.x, get_viewport().size.y/2)
+		position = Vector2(get_viewport().size.x, get_viewport().size.y)
+	elif (position.y < 0):
+		position = Vector2(get_viewport().size.x, position.y)
 	elif (position.x > get_viewport().size.x):
 		pass
 	#pass
