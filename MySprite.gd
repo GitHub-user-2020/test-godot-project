@@ -4,11 +4,14 @@ extends Sprite
 func _ready():
 	#print(self.position)
 	# position sprite to centre of viewport:
-	position=Vector2(get_viewport().size.x/2, get_viewport().size.y/2)
+	position = Vector2(get_viewport().size.x/2, get_viewport().size.y/2)
 	scale = Vector2(0.3, 0.3)
+
 	# rotate, default radians
+
 	rotate(deg2rad(90))
 	set_process(true)
+	
 func _process(delta):
 	# spin the sprite round and round
 	#rotate(deg2rad(90*delta))
