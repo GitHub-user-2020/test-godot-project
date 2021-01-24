@@ -55,6 +55,7 @@ func _enter_tree():
 
 # Called when the node enters the scene tree for the first time. Called after _enter_tree(); only called when children ready.
 func _ready():
+	set_process(false)
 	# instantiate child node
 	#var child = load("res://Child.gd")
 	#var childNode = child.instance()
