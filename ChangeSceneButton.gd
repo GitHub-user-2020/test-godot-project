@@ -25,12 +25,14 @@ func _on_LineEdit_text_entered(chosen_scene: String):
 func _on_LineEdit_text_changed(new_text):
 	user_scene = new_text
 
-
-
+# debug invalid scene change
 func _on_LineEdit_text_change_rejected():
 	print("Sorry, can't change to " + user_scene)
 
-
+# when text box enters focus
 func _on_LineEdit_focus_entered():
 	text_box.text = ""
-	pass # Replace with function body.
+
+# when text box exits focus, reset text
+func _on_LineEdit_focus_exited():
+	text_box.text = "Click and type here to choose a scene to open."
