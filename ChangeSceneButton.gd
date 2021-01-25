@@ -13,7 +13,7 @@ func _ready():
 # confirm their scene change selection.
 func _on_LineEdit_text_entered(chosen_scene: String):
 	user_scene = chosen_scene
-	print("Changing scene through keyboard input...")
+	# print("Changing scene through keyboard input...")
 	# pass to open_chosen_scene() function in test-menu.gd
 	emit_signal("scene_chosen", user_scene)
 	pass

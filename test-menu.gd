@@ -5,37 +5,46 @@ var csb # change scene button reference
 
 var _ns # placeholder variable so changing scene works
 var _btn # placeholder variable for initial button
-var NewBtn
 var CreditsBtn # Button to show credits and licenses
 var ExitBtn # Button to quit application
+var TitleLabel
+var VertCtnr # container for buttons
 func _ready():
-	get_node("VBoxContainer").add_to_group("menu")
+	VertCtnr = get_node("VBoxContainer")
+	# align container to be at the centre of the screen
+	VertCtnr.set_alignment(1)
+	VertCtnr = get_child(0)
+	VertCtnr.add_to_group("menu")
+	TitleLabel = VertCtnr.get_node("Label")
+	TitleLabel.name = "Main Menu"
+	TitleLabel.text = "Main Menu"
 	print("Objects within group \"menu\":")
-
+	# VertCtnr.move_child(TitleLabel, 2) 
 	for obj in get_child(0).get_children():
 		obj.add_to_group("menu")
 		print(obj.name)
 	print(get_tree().get_nodes_in_group("menu"))
 
-	_btn = get_node("VBoxContainer/Button")
-	_btn.connect("pressed", self, "_on_Button_pressed")
+	_btn = VertCtnr.get_node("Button")
+	# _btn.connect("pressed", self, "_on_Button_pressed")
+	_btn.queue_free()
 	#set_process(false)
 
-	csb = get_node("VBoxContainer/ChangeSceneButton")
+	csb = VertCtnr.get_node("ChangeSceneButton")
 	csb.connect("scene_chosen", self, "open_chosen_scene")
-	NewBtn = Button.new() 	# create new node (different from instantiating scene)
-											# opposite of this is .free() - use queue_free() in case it's still running
-											# a function or emitting a signal.
-	NewBtn.name = "New Button"
-	get_node("VBoxContainer").add_child(NewBtn) # add new node to tree as child of existing node
+	# NewBtn = Button.new() 	# create new node (different from instantiating scene)
+	# 										# opposite of this is .free() - use queue_free() in case it's still running
+	# 										# a function or emitting a signal.
+	# NewBtn.name = "New Button"
+	# get_node("VBoxContainer").add_child(NewBtn) # add new node to tree as child of existing node
 	CreditsBtn = Button.new()
 	ExitBtn = Button.new()
 	CreditsBtn.name = "Credits and licenses"
 	CreditsBtn.text = "Credits and licenses"
 	ExitBtn.name = "Exit"
 	ExitBtn.text = "Exit"
-	get_node("VBoxContainer").add_child(CreditsBtn)
-	get_node("VBoxContainer").add_child(ExitBtn)
+	VertCtnr.add_child(CreditsBtn)
+	VertCtnr.add_child(ExitBtn)
 	ExitBtn.connect("pressed", self, "_on_ExitBtn_pressed")
 	# add toggle for Credits and licenses button to expand/hide
 	# wall of text
