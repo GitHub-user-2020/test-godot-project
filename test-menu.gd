@@ -6,7 +6,8 @@ var csb # change scene button reference
 var _ns # placeholder variable so changing scene works
 var _btn # placeholder variable for initial button
 var NewBtn
-
+var CreditsBtn # Button to show credits and licenses
+var ExitBtn # Button to quit application
 func _ready():
 	get_node("VBoxContainer").add_to_group("menu")
 	print("Objects within group \"menu\":")
@@ -27,7 +28,17 @@ func _ready():
 											# a function or emitting a signal.
 	NewBtn.name = "New Button"
 	get_node("VBoxContainer").add_child(NewBtn) # add new node to tree as child of existing node
-
+	CreditsBtn = Button.new()
+	ExitBtn = Button.new()
+	CreditsBtn.name = "Credits and licenses"
+	CreditsBtn.text = "Credits and licenses"
+	ExitBtn.name = "Exit"
+	ExitBtn.text = "Exit"
+	get_node("VBoxContainer").add_child(CreditsBtn)
+	get_node("VBoxContainer").add_child(ExitBtn)
+	ExitBtn.connect("pressed", self, "_on_ExitBtn_pressed")
+	# add toggle for Credits and licenses button to expand/hide
+	# wall of text
 func _process(_delta):
 	pass
 
@@ -56,3 +67,5 @@ func _on_ChangeSceneButton_pressed():
 	# ISSUES:
 	# - Try opening "testscene" without the quotes, and then "SceneOne" in the text box and 
 	# 	click the change scene button.
+func _on_ExitBtn_pressed():
+	get_tree().quit(0)
