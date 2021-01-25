@@ -1,17 +1,16 @@
 extends Button
-onready var text_box = get_node("../LineEdit")
-var user_scene : String
-signal scene_chosen(_scene)
-# Declare member variables here. Examples:
-# var a = 2
-# var b = "text"
+
+onready var text_box = get_node("../LineEdit")	# get text box
+var user_scene : String							# name of scene user wants to change to
+signal scene_chosen(_scene)						# send signal of chosen scene
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
 	print(text_box.text)
 	pass # Replace with function body.
 
-
+# for users who prefer to press the Return key to
+# confirm their scene change selection.
 func _on_LineEdit_text_entered(chosen_scene: String):
 	user_scene = chosen_scene
 	print("Changing scene through keyboard input...")

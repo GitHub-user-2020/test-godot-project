@@ -8,7 +8,7 @@ var _newScene
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	_newScene = get_tree().change_scene("test-menu.tscn")
+	# _newScene = get_tree().change_scene("test-menu.tscn")
 	#print(get_child(0).get_child(1).name)
 	#print(find_node("Child", true, false))
 	sp = get_tree().get_root().get_node("TheRoot").get_child(1)
