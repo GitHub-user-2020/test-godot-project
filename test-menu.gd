@@ -5,6 +5,7 @@ var csb # change scene button reference
 
 var _ns # placeholder variable so changing scene works
 var _btn # placeholder variable for initial button
+var NewBtn
 
 func _ready():
 	get_node("VBoxContainer").add_to_group("menu")
@@ -13,6 +14,7 @@ func _ready():
 	for obj in get_child(0).get_children():
 		obj.add_to_group("menu")
 		print(obj.name)
+	print(get_tree().get_nodes_in_group("menu"))
 
 	_btn = get_node("VBoxContainer/Button")
 	_btn.connect("pressed", self, "_on_Button_pressed")
@@ -20,8 +22,12 @@ func _ready():
 
 	csb = get_node("VBoxContainer/ChangeSceneButton")
 	csb.connect("scene_chosen", self, "open_chosen_scene")
-	print(get_tree().get_nodes_in_group("menu"))
-	
+	NewBtn = Button.new() 	# create new node (different from instantiating scene)
+											# opposite of this is .free() - use queue_free() in case it's still running
+											# a function or emitting a signal.
+	NewBtn.name = "New Button"
+	get_node("VBoxContainer").add_child(NewBtn) # add new node to tree as child of existing node
+
 func _process(_delta):
 	pass
 
@@ -30,7 +36,10 @@ func _process(_delta):
 func _on_Button_pressed():
 	get_node("VBoxContainer/Label").text = "Sebastian Vettel is complaining about blue flags"
 
-
+# function that actually changes scene. Depends on:
+# - Signal from ChangeSceneButton.gd being emitted
+# - Signal from a text box being emitted, from within
+# aforementioned script.
 func open_chosen_scene(scene_name : String):
 	scene_name = scene_name + ".tscn"
 	print("Attempting to open " + scene_name + "...")
