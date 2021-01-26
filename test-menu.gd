@@ -1,8 +1,8 @@
 extends Panel
+class_name ProjMenu # class name, so editor sees this as a custom type
 var csb # change scene button reference
 		# emit signal to one of its variables
 		# to trigger a function for it
-
 var _ns # placeholder variable so changing scene works
 var _btn # placeholder variable for initial button
 var CreditsBtn # Button to show credits and licenses
