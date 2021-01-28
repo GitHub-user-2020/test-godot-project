@@ -48,8 +48,20 @@ func _ready():
 	ExitBtn.connect("pressed", self, "_on_ExitBtn_pressed")
 	# add toggle for Credits and licenses button to expand/hide
 	# wall of text
+	# $"/root/Globals".is_menu_visible = true
 func _process(_delta):
-	pass
+	# define global variable - will be useful for
+	# pause functionality for instance
+	if get_node("./VBoxContainer/ChangeSceneButton").visible:
+		$"/root/Globals".is_menu_visible = true
+	else:
+		$"/root/Globals".is_menu_visible = false
+	# grab focus on change scene button
+	# if no focus is present
+	if Input.is_key_pressed(KEY_TAB):
+		print("TAB pressed, selecting a button")
+		if csb.get_focus_owner() == null:
+			csb.text_box.grab_focus()
 
 # consider adding input logic in order to allow menu navigation
 # with gamepad or keyboard
