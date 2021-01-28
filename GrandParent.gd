@@ -27,5 +27,7 @@ func notify_edge_screen(node_name):
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-#func _process(delta):
+func _process(delta):
+	if Input.is_key_pressed(KEY_ESCAPE):
+		$"/root/Globals".open_main_menu()
 #	pass

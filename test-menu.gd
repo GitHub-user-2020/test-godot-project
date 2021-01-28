@@ -53,16 +53,22 @@ func _process(_delta):
 	# define global variable - will be useful for
 	# pause functionality for instance
 	if self.visible:
-		$"/root/Globals".is_menu_visible = true
+		# $"/root/Globals".is_menu_visible = true
+		pass
 	else:
-		$"/root/Globals".is_menu_visible = false
+		pass
+		# $"/root/Globals".is_menu_visible = false
 	# grab focus on change scene button
 	# if no focus is present
-	if Input.is_key_pressed(KEY_TAB):
+	if Input.is_key_pressed(KEY_TAB) && not $"/root/Globals".is_menu_visible:
 		print("TAB pressed, selecting a button")
+		$"/root/Globals".is_menu_visible = true
 		if csb.get_focus_owner() == null:
 			csb.text_box.grab_focus()
-
+	# "unpause" game, unfortunately, shared keybinds are useless for toggling
+	if Input.is_key_pressed(KEY_ESCAPE) && $"/root/Globals".is_menu_visible && get_tree().get_current_scene().name != "test_scene":
+		defocus()
+		pass
 # consider adding input logic in order to allow menu navigation
 # with gamepad or keyboard
 func _on_Button_pressed():
@@ -72,6 +78,12 @@ func _on_Button_pressed():
 # - Signal from ChangeSceneButton.gd being emitted
 # - Signal from a text box being emitted, from within
 # aforementioned script.
+func defocus():
+	print("ESC pressed, removing main menu from viewport")
+	var current_focus_control = get_focus_owner()
+	current_focus_control.release_focus()
+	$"root/Globals".is_menu_visible = false
+	pass
 func open_chosen_scene(scene_name : String):
 	scene_name = scene_name + ".tscn"
 	print("Attempting to open " + scene_name + "...")
