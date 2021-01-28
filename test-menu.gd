@@ -52,7 +52,7 @@ func _ready():
 func _process(_delta):
 	# define global variable - will be useful for
 	# pause functionality for instance
-	if get_node("./VBoxContainer/Main Menu").visible:
+	if TitleLabel.visible:
 		$"/root/Globals".is_menu_visible = true
 	else:
 		$"/root/Globals".is_menu_visible = false
