@@ -52,7 +52,7 @@ func _ready():
 func _process(_delta):
 	# define global variable - will be useful for
 	# pause functionality for instance
-	if TitleLabel.visible:
+	if self.visible:
 		$"/root/Globals".is_menu_visible = true
 	else:
 		$"/root/Globals".is_menu_visible = false
