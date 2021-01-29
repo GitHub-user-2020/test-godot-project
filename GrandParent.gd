@@ -11,6 +11,7 @@ func _ready():
 	# _newScene = get_tree().change_scene("test-menu.tscn")
 	#print(get_child(0).get_child(1).name)
 	#print(find_node("Child", true, false))
+	$"/root/Globals".reset_global_vars()
 	sp = get_tree().get_root().get_node("TheRoot").get_child(1)
 	print(sp.name)
 	sp.connect("off_screen", self, "notify_edge_screen")
@@ -28,6 +29,12 @@ func notify_edge_screen(node_name):
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta):
-	if Input.is_key_pressed(KEY_ESCAPE):
+	print($"/root/Globals".is_menu_visible)
+	# use is_action_just_pressed to execute once per frame only.
+	if Input.is_action_just_pressed("ui_cancel") && not $"/root/Globals".is_menu_visible && not $"../Main Menu panel":
 		$"/root/Globals".open_main_menu()
+	# bug: this will only work when separate keys are used.
+	if Input.is_action_just_pressed("ui_accept") && not $"/root/Globals".is_menu_visible && $"../Main Menu panel" != null:
+		$"../Main Menu panel".visible = true
+
 #	pass

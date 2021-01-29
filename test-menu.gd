@@ -10,13 +10,14 @@ var ExitBtn # Button to quit application
 var TitleLabel
 var VertCtnr # container for buttons
 func _ready():
+	self.name = "Main Menu panel"
 	VertCtnr = get_node("VBoxContainer")
 	# align container to be at the centre of the screen
 	VertCtnr.set_alignment(1)
 	VertCtnr = get_child(0)
 	VertCtnr.add_to_group("menu")
 	TitleLabel = VertCtnr.get_node("Label")
-	TitleLabel.name = "Main Menu"
+	TitleLabel.name = "Main Menu title"
 	TitleLabel.text = "Main Menu"
 	print("Objects within group \"menu\":")
 	# VertCtnr.move_child(TitleLabel, 2) 
@@ -39,35 +40,42 @@ func _ready():
 	# get_node("VBoxContainer").add_child(NewBtn) # add new node to tree as child of existing node
 	CreditsBtn = Button.new()
 	ExitBtn = Button.new()
+
 	CreditsBtn.name = "Credits and licenses"
 	CreditsBtn.text = "Credits and licenses"
+
 	ExitBtn.name = "Exit"
 	ExitBtn.text = "Exit"
+
 	VertCtnr.add_child(CreditsBtn)
 	VertCtnr.add_child(ExitBtn)
 	ExitBtn.connect("pressed", self, "_on_ExitBtn_pressed")
 	# add toggle for Credits and licenses button to expand/hide
 	# wall of text
 	# $"/root/Globals".is_menu_visible = true
+	print(get_tree().get_current_scene().name)
 func _process(_delta):
 	# define global variable - will be useful for
 	# pause functionality for instance
 	if self.visible:
 		# $"/root/Globals".is_menu_visible = true
+		$"/root/Globals".is_menu_visible = true
 		pass
 	else:
+		# $"root/Globals".is_menu_visible = false
 		pass
 		# $"/root/Globals".is_menu_visible = false
 	# grab focus on change scene button
 	# if no focus is present
-	if Input.is_key_pressed(KEY_TAB) && not $"/root/Globals".is_menu_visible:
+	if Input.is_key_pressed(KEY_TAB):
 		print("TAB pressed, selecting a button")
-		$"/root/Globals".is_menu_visible = true
 		if csb.get_focus_owner() == null:
 			csb.text_box.grab_focus()
-	# "unpause" game, unfortunately, shared keybinds are useless for toggling
-	if Input.is_key_pressed(KEY_ESCAPE) && $"/root/Globals".is_menu_visible && get_tree().get_current_scene().name != "test_scene":
-		defocus()
+	# use is_action_just_pressed to execute once per frame only.
+	if Input.is_action_just_pressed("ui_cancel") && $"/root/Globals".is_menu_visible && get_tree().get_current_scene().name != "Main Menu panel":
+		call("defocus")
+		emit_signal("hide")
+		# $"root/Globals".is_menu_visible = false
 		pass
 # consider adding input logic in order to allow menu navigation
 # with gamepad or keyboard
@@ -79,10 +87,15 @@ func _on_Button_pressed():
 # - Signal from a text box being emitted, from within
 # aforementioned script.
 func defocus():
-	print("ESC pressed, removing main menu from viewport")
+	print("ESC pressed, removing main menu from viewport in a few seconds")
+	# hacky workaround with shared keybind - use yield?
+	# remove focus if there is any
+	# Source: https://godotforums.org/discussion/22920/how-to-remove-focus-from-control-nodes
 	var current_focus_control = get_focus_owner()
-	current_focus_control.release_focus()
-	$"root/Globals".is_menu_visible = false
+	if current_focus_control:
+		current_focus_control.release_focus()
+	$"/root/Globals".is_menu_visible = false
+	self.visible = false
 	pass
 func open_chosen_scene(scene_name : String):
 	scene_name = scene_name + ".tscn"
