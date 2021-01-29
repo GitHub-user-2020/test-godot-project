@@ -11,6 +11,10 @@ func _ready():
 	# _newScene = get_tree().change_scene("test-menu.tscn")
 	#print(get_child(0).get_child(1).name)
 	#print(find_node("Child", true, false))
+
+	# call this function to allow menu to pop up
+	# at start of project, /root/Globals.is_menu_visible
+	# remains set to true even on scene change
 	$"/root/Globals".reset_global_vars()
 	sp = get_tree().get_root().get_node("TheRoot").get_child(1)
 	print(sp.name)
@@ -31,10 +35,11 @@ func notify_edge_screen(node_name):
 func _process(delta):
 	print($"/root/Globals".is_menu_visible)
 	# use is_action_just_pressed to execute once per frame only.
+	# to be executed on scene load
 	if Input.is_action_just_pressed("ui_cancel") && not $"/root/Globals".is_menu_visible && not $"../Main Menu panel":
 		$"/root/Globals".open_main_menu()
-	# bug: this will only work when separate keys are used.
-	if Input.is_action_just_pressed("ui_accept") && not $"/root/Globals".is_menu_visible && $"../Main Menu panel" != null:
-		$"../Main Menu panel".visible = true
 
-#	pass
+	# bug: this will only work when separate keys are used.
+	# to be executed after the first time the scene has been loaded
+	if Input.is_action_just_pressed("ui_cancel") && not $"/root/Globals".is_menu_visible && $"../Main Menu panel" != null:
+		$"../Main Menu panel".visible = true

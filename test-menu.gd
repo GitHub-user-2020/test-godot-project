@@ -9,6 +9,7 @@ var CreditsBtn # Button to show credits and licenses
 var ExitBtn # Button to quit application
 var TitleLabel
 var VertCtnr # container for buttons
+var ContinueButton # continue button
 func _ready():
 	self.name = "Main Menu panel"
 	VertCtnr = get_node("VBoxContainer")
@@ -26,6 +27,7 @@ func _ready():
 		print(obj.name)
 	print(get_tree().get_nodes_in_group("menu"))
 
+	# exercise in deleting nodes
 	_btn = VertCtnr.get_node("Button")
 	# _btn.connect("pressed", self, "_on_Button_pressed")
 	_btn.queue_free()
@@ -40,18 +42,30 @@ func _ready():
 	# get_node("VBoxContainer").add_child(NewBtn) # add new node to tree as child of existing node
 	CreditsBtn = Button.new()
 	ExitBtn = Button.new()
+	ContinueButton = Button.new()
 
 	CreditsBtn.name = "Credits and licenses"
 	CreditsBtn.text = "Credits and licenses"
+	ContinueButton.name = "Continue button"
+	ContinueButton.text = "Continue"
 
 	ExitBtn.name = "Exit"
 	ExitBtn.text = "Exit"
+
+	# use is_action_just_pressed to execute once per frame only.
+	if get_tree().get_current_scene().name != "Main Menu panel":
+		VertCtnr.add_child(ContinueButton)
+		# attempt to move continue buttonn to the top of the container,
+		# only below label.
+		move_child(ContinueButton, 0)
+		ContinueButton.connect("pressed", self, "_on_ContinueButton_pressed")
 
 	VertCtnr.add_child(CreditsBtn)
 	VertCtnr.add_child(ExitBtn)
 	ExitBtn.connect("pressed", self, "_on_ExitBtn_pressed")
 	# add toggle for Credits and licenses button to expand/hide
 	# wall of text
+
 	# $"/root/Globals".is_menu_visible = true
 	print(get_tree().get_current_scene().name)
 func _process(_delta):
@@ -68,20 +82,23 @@ func _process(_delta):
 	# grab focus on change scene button
 	# if no focus is present
 	if Input.is_key_pressed(KEY_TAB):
-		print("TAB pressed, selecting a button")
+		# print("TAB pressed, selecting a button")
 		if csb.get_focus_owner() == null:
 			csb.text_box.grab_focus()
+
 	# use is_action_just_pressed to execute once per frame only.
 	if Input.is_action_just_pressed("ui_cancel") && $"/root/Globals".is_menu_visible && get_tree().get_current_scene().name != "Main Menu panel":
-		call("defocus")
-		emit_signal("hide")
+		if ContinueButton.get_focus_owner() == null:
+			ContinueButton.grab_focus()
+			ContinueButton.emit_signal("pressed")
+		# call("defocus")
+		# emit_signal("hide")
 		# $"root/Globals".is_menu_visible = false
 		pass
-# consider adding input logic in order to allow menu navigation
-# with gamepad or keyboard
-func _on_Button_pressed():
-	get_node("VBoxContainer/Label").text = "Sebastian Vettel is complaining about blue flags"
 
+func _on_ContinueButton_pressed():
+	call("defocus")
+	emit_signal("hide")
 # function that actually changes scene. Depends on:
 # - Signal from ChangeSceneButton.gd being emitted
 # - Signal from a text box being emitted, from within
@@ -97,6 +114,8 @@ func defocus():
 	$"/root/Globals".is_menu_visible = false
 	self.visible = false
 	pass
+
+
 func open_chosen_scene(scene_name : String):
 	scene_name = scene_name + ".tscn"
 	print("Attempting to open " + scene_name + "...")
