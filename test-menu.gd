@@ -11,6 +11,7 @@ var TitleLabel
 var VertCtnr # container for buttons
 var ContinueButton # continue button
 func _ready():
+	self.pause_mode = Node.PAUSE_MODE_PROCESS
 	self.name = "Main Menu panel"
 	VertCtnr = get_node("VBoxContainer")
 	# align container to be at the centre of the screen
@@ -68,28 +69,39 @@ func _ready():
 
 	# $"/root/Globals".is_menu_visible = true
 	print(get_tree().get_current_scene().name)
+	if csb.get_focus_owner() == null:
+		csb.text_box.grab_focus()
+	# elif ContinueButton != null:
+	# 	if ContinueButton.get_focus_owner() == null:
+	# 		ContinueButton.grab_focus()
 func _process(_delta):
 	# define global variable - will be useful for
 	# pause functionality for instance
 	if self.visible:
-		# $"/root/Globals".is_menu_visible = true
 		$"/root/Globals".is_menu_visible = true
+		
 		pass
 	else:
-		# $"root/Globals".is_menu_visible = false
+		$"/root/Globals".is_menu_visible = false
+
 		pass
 		# $"/root/Globals".is_menu_visible = false
 	# grab focus on change scene button
 	# if no focus is present
-	if Input.is_key_pressed(KEY_TAB):
-		# print("TAB pressed, selecting a button")
+
+func _input(event: InputEvent):
+	if event is InputEventKey and event.pressed and event.scancode == KEY_TAB:
 		if csb.get_focus_owner() == null:
 			csb.text_box.grab_focus()
+		pass
+		# print("TAB pressed, selecting a button")
 
 	# use is_action_just_pressed to execute once per frame only.
-	if Input.is_action_just_pressed("ui_cancel") && $"/root/Globals".is_menu_visible && get_tree().get_current_scene().name != "Main Menu panel":
-		if ContinueButton.get_focus_owner() == null:
-			ContinueButton.grab_focus()
+	if event.is_action_pressed("ui_cancel"):
+		print("Esc key pressed")
+		if $"/root/Globals".is_menu_visible && get_tree().get_current_scene().name != "Main Menu panel":
+			if ContinueButton.get_focus_owner() == null:
+				ContinueButton.grab_focus()
 			ContinueButton.emit_signal("pressed")
 		# call("defocus")
 		# emit_signal("hide")
@@ -113,6 +125,7 @@ func defocus():
 		current_focus_control.release_focus()
 	$"/root/Globals".is_menu_visible = false
 	self.visible = false
+	get_tree().paused = false
 	pass
 
 
