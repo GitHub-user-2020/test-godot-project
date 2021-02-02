@@ -97,7 +97,7 @@ func _input(event: InputEvent):
 		# print("TAB pressed, selecting a button")
 
 	# use is_action_just_pressed to execute once per frame only.
-	if event.is_action_pressed("ui_cancel"):
+	if event.is_action_pressed("ui_cancel") && self.visible:
 		print("Esc key pressed")
 		if $"/root/Globals".is_menu_visible && get_tree().get_current_scene().name != "Main Menu panel":
 			if ContinueButton.get_focus_owner() == null:
@@ -107,6 +107,12 @@ func _input(event: InputEvent):
 		# emit_signal("hide")
 		# $"root/Globals".is_menu_visible = false
 		pass
+	if event.is_action_pressed("ui_cancel") && not self.visible:
+		print("Esc key pressed")
+		if not Globals.is_menu_visible && get_tree().get_current_scene().name != "Main menu panel":
+			get_tree().paused = true
+			self.visible = true
+			Globals.is_menu_visible = true
 
 func _on_ContinueButton_pressed():
 	call("defocus")

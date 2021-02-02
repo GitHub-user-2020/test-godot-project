@@ -37,13 +37,15 @@ func _process(delta):
 	# use is_action_just_pressed to execute once per frame only.
 	# to be executed on scene load
 func _input(event: InputEvent):
+	
 	if event.is_action_pressed("ui_cancel") && not $"/root/Globals".is_menu_visible && not $"../Main Menu panel":
 		get_tree().paused = true
 		$"/root/Globals".open_main_menu()
-
+	"""
 	# bug: this will only work when separate keys are used.
 	# to be executed after the first time the scene has been loaded
 	if event.is_action_pressed("ui_cancel") && not $"/root/Globals".is_menu_visible && $"../Main Menu panel" != null:
 		get_tree().paused = true
 		print("Pressing pause a second time")
 		$"../Main Menu panel".visible = true
+	"""
